@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;}
+::selection{background:#B25A3C;color:#fff;}
+[data-carousel]::-webkit-scrollbar{height:0;display:none;}
+[data-carousel]{-ms-overflow-style:none;scrollbar-width:none;}
+</style>
+</helmet>
+<div style="font-family:'Mulish',system-ui,sans-serif;color:#2C2621;background:#F6F1E9;min-height:100vh;">
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(246,241,233,0.92);backdrop-filter:blur(10px);border-bottom:1px solid #E2D9CB;">
+    <div style="max-width:1500px;margin:0 auto;padding:13px clamp(16px,4vw,52px);display:flex;flex-wrap:wrap;align-items:center;gap:12px 30px;">
+      <button onClick="{{ brandClick }}" style="background:none;border:none;cursor:pointer;text-align:left;padding:0;display:flex;flex-direction:column;gap:1px;margin-right:auto;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;letter-spacing:0.02em;color:#2C2621;line-height:1;">Kala&nbsp;3</span>
+        <span style="font-size:0.62rem;letter-spacing:0.28em;text-transform:uppercase;color:#8a8073;">{{ t.locTagline }}</span>
+      </button>
+      <nav style="display:flex;flex-wrap:wrap;gap:16px 22px;align-items:center;">
+        <sc-for list="{{ navButtons }}" as="btn" hint-placeholder-count="4">
+          <button onClick="{{ btn.onClick }}" style="{{ btn.style }}">{{ btn.label }}</button>
+        </sc-for>
+      </nav>
+      <div style="display:flex;gap:5px;">
+        <sc-for list="{{ langButtons }}" as="lb" hint-placeholder-count="5">
+          <button onClick="{{ lb.onClick }}" style="{{ lb.style }}">{{ lb.name }}</button>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <section style="position:relative;height:clamp(460px,86vh,1000px);width:100%;overflow:hidden;">
+          <img src="images/sea-view.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"/>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,12,0.30) 0%,rgba(20,16,12,0.05) 42%,rgba(20,16,12,0.48) 100%);"></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px;">
+            <p style="color:#F6F1E9;font-size:clamp(1.05rem,2.2vw,1.6rem);font-style:italic;font-family:'Cormorant Garamond',serif;letter-spacing:0.01em;margin:0 0 10px;text-shadow:0 2px 18px rgba(0,0,0,0.45);">{{ t.bannerEyebrow }}</p>
+            <h1 style="color:#fff;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(2.4rem,6.4vw,5.8rem);line-height:1.02;margin:0;max-width:16ch;text-shadow:0 3px 34px rgba(0,0,0,0.5);">{{ t.bannerTitle }}</h1>
+            <button onClick="{{ discoverClick }}" style="margin-top:34px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.65);color:#fff;font:inherit;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;padding:13px 28px;cursor:pointer;backdrop-filter:blur(4px);">{{ t.bannerScroll }}</button>
+          </div>
+        </section>
+
+        <section id="photos" style="padding:clamp(56px,8vw,120px) clamp(16px,4vw,52px);max-width:1500px;margin:0 auto;">
+          <div style="text-align:center;max-width:660px;margin:0 auto clamp(30px,4vw,50px);">
+            <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2rem,4.4vw,3.4rem);margin:0 0 14px;line-height:1.05;">{{ t.photosHeading }}</h2>
+            <p style="color:#6B6156;font-size:1.05rem;line-height:1.7;margin:0;">{{ t.photosSub }}</p>
+          </div>
+          <div style="display:flex;justify-content:center;gap:clamp(24px,4vw,48px);margin-bottom:28px;flex-wrap:wrap;">
+            <sc-for list="{{ tabButtons }}" as="tb" hint-placeholder-count="3">
+              <button onClick="{{ tb.onClick }}" style="{{ tb.style }}">{{ tb.label }}</button>
+            </sc-for>
+          </div>
+          <div style="position:relative;">
+            <div data-carousel ref="{{ carouselRef }}" onScroll="{{ onCarouselScroll }}" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;height:clamp(360px,64vh,780px);background:#EFE8DB;border:1px solid #E2D9CB;">
+              <sc-for list="{{ slides }}" as="slide" hint-placeholder-count="3">
+                <div style="min-width:100%;height:100%;scroll-snap-align:center;position:relative;display:flex;align-items:center;justify-content:center;background:#EFE8DB;">
+                  <img src="{{ slide.src }}" alt="" style="{{ slide.imgStyle }}"/>
+                  <sc-if value="{{ slide.hasLabel }}" hint-placeholder-val="{{ true }}">
+                    <div style="{{ slideLabelStyle }}">{{ slide.label }}</div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <button onClick="{{ scrollPrev }}" aria-label="Previous" style="{{ arrowLeftStyle }}">‹</button>
+            <button onClick="{{ scrollNext }}" aria-label="Next" style="{{ arrowRightStyle }}">›</button>
+            <div style="position:absolute;right:14px;bottom:14px;background:rgba(20,16,12,0.62);color:#fff;font-size:0.72rem;letter-spacing:0.08em;padding:4px 11px;border-radius:2px;z-index:5;">{{ slideIndex }} / {{ slideTotal }}</div>
+          </div>
+          <sc-if value="{{ showHint }}" hint-placeholder-val="{{ true }}">
+            <p style="text-align:center;color:#9a9084;font-size:0.8rem;letter-spacing:0.06em;margin:16px 0 0;">{{ t.swipeHint }}</p>
+          </sc-if>
+        </section>
+
+        <section style="background:#EFE8DB;padding:clamp(56px,8vw,120px) clamp(16px,4vw,52px);">
+          <div style="max-width:1300px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(30px,5vw,72px);align-items:center;">
+            <div>
+              <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2rem,4.4vw,3.4rem);margin:0 0 22px;line-height:1.05;">{{ t.locationHeading }}</h2>
+              <p style="color:#544b41;font-size:1.08rem;line-height:1.8;margin:0 0 18px;">{{ t.locationBody1 }}</p>
+              <p style="color:#544b41;font-size:1.08rem;line-height:1.8;margin:0;">{{ t.locationBody2 }}</p>
+            </div>
+            <div>
+              <img src="images/bol-map.png" alt="Map of Bol" style="width:100%;height:auto;display:block;border:1px solid #d8cdba;box-shadow:0 14px 44px rgba(0,0,0,0.14);"/>
+            </div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSurr }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <section style="text-align:center;max-width:760px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,52px) clamp(18px,3vw,40px);">
+          <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.4rem,5.4vw,4.2rem);margin:0 0 20px;line-height:1.03;">{{ t.surrHeading }}</h1>
+          <p style="color:#6B6156;font-size:1.12rem;line-height:1.8;margin:0;">{{ t.surrIntro }}</p>
+        </section>
+        <section style="max-width:1300px;margin:0 auto;padding:clamp(20px,3vw,44px) clamp(16px,4vw,52px) clamp(60px,8vw,120px);display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,4vw,60px);">
+          <sc-for list="{{ surrBlocks }}" as="block" hint-placeholder-count="4">
+            <article style="display:flex;flex-direction:column;">
+              <div style="aspect-ratio:4/3;overflow:hidden;background:#EFE8DB;border:1px solid #E2D9CB;">
+                <img src="{{ block.img }}" alt="{{ block.title }}" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+              </div>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(1.55rem,2.6vw,2.1rem);color:#2C2621;margin:22px 0 12px;line-height:1.1;">{{ block.title }}</h3>
+              <p style="color:#6B6156;font-size:1.02rem;line-height:1.75;margin:0;">{{ block.body }}</p>
+            </article>
+          </sc-for>
+        </section>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isOpp }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <section style="text-align:center;max-width:760px;margin:0 auto;padding:clamp(56px,8vw,110px) clamp(16px,4vw,52px) clamp(24px,4vw,48px);">
+          <h1 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.4rem,5.4vw,4.2rem);margin:0 0 20px;line-height:1.03;">{{ t.oppHeading }}</h1>
+          <p style="color:#6B6156;font-size:1.12rem;line-height:1.8;margin:0;">{{ t.oppIntro }}</p>
+        </section>
+
+        <section style="max-width:1300px;margin:0 auto;padding:clamp(20px,3vw,40px) clamp(16px,4vw,52px) clamp(48px,7vw,90px);">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(30px,5vw,64px);align-items:center;">
+            <div style="overflow:hidden;border:1px solid #E2D9CB;box-shadow:0 12px 40px rgba(0,0,0,0.12);">
+              <img src="images/opportunities/marina-bol.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+            </div>
+            <div>
+              <span style="{{ eyebrowStyle }}">01</span>
+              <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.9rem,3.6vw,2.9rem);margin:12px 0 18px;line-height:1.08;">{{ t.o1Title }}</h2>
+              <p style="color:#544b41;font-size:1.08rem;line-height:1.8;margin:0;">{{ t.o1Body }}</p>
+            </div>
+          </div>
+        </section>
+
+        <section style="background:#EFE8DB;padding:clamp(52px,7vw,110px) clamp(16px,4vw,52px);">
+          <div style="max-width:1100px;margin:0 auto;text-align:center;">
+            <span style="{{ eyebrowStyle }}">02</span>
+            <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.9rem,3.6vw,2.9rem);margin:12px 0 18px;line-height:1.08;">{{ t.o2Title }}</h2>
+            <p style="color:#544b41;font-size:1.08rem;line-height:1.8;max-width:700px;margin:0 auto;">{{ t.o2Body }}</p>
+            <img src="images/opportunities/house-extension-mockup.png" alt="Proposed elevations" style="width:100%;height:auto;margin-top:38px;background:#fff;border:1px solid #d8cdba;padding:clamp(14px,3vw,44px);box-shadow:0 12px 40px rgba(0,0,0,0.1);"/>
+          </div>
+          <div style="max-width:1100px;margin:clamp(44px,6vw,80px) auto 0;text-align:center;">
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.6rem,3vw,2.4rem);margin:0;">{{ t.videoTitle }}</h3>
+            <div style="position:relative;max-width:100%;margin:16px auto 0;aspect-ratio:1307 / 1024;overflow:hidden;-webkit-mask-image:linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);mask-composite:intersect;">
+              <video ref="{{ videoRef }}" src="images/view.mp4" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="position:absolute;left:-33.5%;top:-6.4%;width:149%;height:107%;object-fit:cover;display:block;"></video>
+            </div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <section id="contact" style="background:#2C2621;color:#F6F1E9;padding:clamp(58px,8vw,120px) clamp(16px,4vw,52px);">
+      <div style="max-width:840px;margin:0 auto;text-align:center;">
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.1rem,4.4vw,3.4rem);margin:0 0 18px;color:#fff;">{{ t.contactHeading }}</h2>
+        <p style="color:#cbc0b2;font-size:1.08rem;line-height:1.8;max-width:580px;margin:0 auto 28px;">{{ t.contactBody }}</p>
+        <div style="display:inline-block;border:1px solid rgba(246,241,233,0.28);padding:9px 22px;border-radius:2px;letter-spacing:0.16em;text-transform:uppercase;font-size:0.78rem;margin-bottom:40px;color:#E8C9A8;">{{ t.priceTag }}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:20px 64px;justify-content:center;">
+          <div>
+            <div style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:#8a8073;margin-bottom:8px;">{{ t.phoneLabel }}</div>
+            <a href="tel:+385000000000" style="color:#E8C9A8;text-decoration:none;font-size:1.25rem;font-family:'Cormorant Garamond',serif;">{{ phoneValue }}</a>
+          </div>
+          <div>
+            <div style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:#8a8073;margin-bottom:8px;">{{ t.emailLabel }}</div>
+            <a href="mailto:info@kala3.example" style="color:#E8C9A8;text-decoration:none;font-size:1.25rem;font-family:'Cormorant Garamond',serif;">{{ emailValue }}</a>
+          </div>
+        </div>
+        <p style="opacity:0.45;font-size:0.72rem;letter-spacing:0.04em;margin:30px 0 0;">{{ contactPlaceholderNote }}</p>
+      </div>
+    </section>
+
+    <footer style="background:#241f1a;color:#8a8073;padding:26px clamp(16px,4vw,52px);text-align:center;font-size:0.78rem;letter-spacing:0.08em;">
+      <p style="margin:0;">{{ t.footerRights }}</p>
+    </footer>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#B25A3C&quot;,&quot;options&quot;:[&quot;#B25A3C&quot;,&quot;#2E6E77&quot;,&quot;#7A6A2E&quot;,&quot;#8F4630&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;,&quot;label&quot;:&quot;Accent colour&quot;},&quot;defaultLanguage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;en&quot;,&quot;options&quot;:[&quot;en&quot;,&quot;sl&quot;,&quot;hr&quot;,&quot;it&quot;,&quot;fr&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;,&quot;label&quot;:&quot;Default language&quot;},&quot;showSwipeHint&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;,&quot;label&quot;:&quot;Show carousel hint&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    const valid = ['en','sl','hr','it','fr'];
+    const initial = valid.includes(props.defaultLanguage) ? props.defaultLanguage : 'en';
+    this.state = { lang: initial, page: 'home', tab: 'interior', slide: 0 };
+    this.carouselRef = React.createRef();
+    this.videoRef = (el) => {
+      if (el) { el.muted = true; el.setAttribute('muted',''); const p = el.play(); if (p && p.catch) p.catch(() => {}); }
+    };
+  }
+
+  interior = [
+    ['bedroom-1-door.png','bedroom1'],
+    ['bedroom-1-with-window.png','bedroom1'],
+    ['bedroom-2.jpg','bedroom2'],
+    ['bedroom-3.jpg','bedroom3'],
+    ['bedroom-3.png','bedroom3'],
+    ['bedroom-4.png','bedroom4'],
+    ['hallway.png','upstairsHallway'],
+    ['stairwell-1.jpg','upstairsHallway'],
+    ['stairwell-3.jpg','viewDownstairs'],
+    ['stairwell-2.jpg','downstairsHallway'],
+    ['konoba-1.png','konoba'],
+    ['konoba-2.jpg','konoba'],
+    ['lounge-room.jpg','downstairsRoom'],
+    ['original-kitchen-1.jpg','kitchenSpace'],
+    ['original-kitchen-2.jpg','kitchenSpace'],
+    ['original-kitchen.jpg','kitchenSpace'],
+    ['store-cupboard.png','storeCupboard']
+  ];
+  exterior = ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.png','8.jpg','9.jpg'];
+  floor = [['ground-floor-floorplan.jpg','groundFloor'],['upper-floor-floorplan.jpg','upperFloor']];
+
+  T = {
+    en: {
+      navHome:'Home', navSurroundings:'Surroundings', navOpportunities:'Opportunity', navContact:'Contact',
+      locTagline:'Bol · Brač · Croatia',
+      bannerEyebrow:'A unique opportunity to own…',
+      bannerTitle:'An Authentic Stone House in the Sun',
+      bannerScroll:'Discover the house',
+      photosHeading:'Explore the House',
+      photosSub:'Three floors of original stone, set in the heart of Bol\u2019s old town.',
+      tabInterior:'Interior', tabExterior:'Exterior', tabFloorplans:'Floor Plans',
+      swipeHint:'Scroll or swipe to view more \u2192',
+      bedroom1:'Bedroom 1', bedroom2:'Bedroom 2', bedroom3:'Bedroom 3', bedroom4:'Bedroom 4',
+      upstairsHallway:'Upstairs Hallway', viewDownstairs:'View Downstairs', downstairsHallway:'Downstairs Hallway',
+      konoba:'Konoba', downstairsRoom:'Downstairs Room', kitchenSpace:'Kitchen Space', storeCupboard:'Store Cupboard',
+      groundFloor:'Ground Floor', upperFloor:'Upper Floor',
+      locationHeading:'Location',
+      locationBody1:'The house stands in the heart of Bol\u2019s old town on the island of Brač, just a few steps up from the seafront. Narrow stone lanes lead down to the harbour, the Riva promenade and a choice of cafés and restaurants.',
+      locationBody2:'The world-famous Zlatni rat beach is a gentle walk or cycle along the coast, and regular ferries connect Bol and Brač to Split on the mainland.',
+      surrHeading:'The Surroundings',
+      surrIntro:'Bol is one of the oldest coastal towns on the Adriatic — a place of white stone, pine, clear water and unhurried island life. A little of what surrounds the house:',
+      s1Title:'Bol & the Island of Brač',
+      s1Body:'Set between the mountains and the sea on the southern coast of Brač, Bol is framed by vineyards, olive groves and pine woods that run right down to the water\u2019s edge.',
+      s2Title:'The Old Harbour',
+      s2Body:'At the centre of town, the old harbour and its stone loža are lined with cafés, fishing boats and restaurants — the natural heart of Bol\u2019s summer evenings.',
+      s3Title:'On Your Doorstep',
+      s3Body:'The house sits on Kala, a quiet old-town lane. A café and pizzeria stand just outside the door, with the shops and waterfront only a short walk downhill.',
+      s4Title:'The Dominican Monastery & Beach',
+      s4Body:'On the eastern edge of town, the 15th-century Dominican monastery sits above a sheltered pebble beach shaded by cypress and pine — one of the loveliest corners of Bol.',
+      oppHeading:'Opportunity',
+      oppIntro:'Beyond the house as it stands today, two possibilities make Kala 3 a rare opportunity.',
+      o1Title:'The New Marina',
+      o1Body:'A new marina is being built on Bol\u2019s waterfront, bringing modern berths and facilities to the town. As it takes shape, it is expected to raise the profile — and the appeal — of property in the old town.',
+      o2Title:'Potential to Develop',
+      o2Body:'There is scope to extend and reconfigure the house, adding living space and a terrace to make the most of the light and the views. The elevations below show one possible direction – permission for this extension was granted by the Heritage Department in 2013.',
+      videoTitle:'The View from the New Balcony',
+      videoNote:'Video coming soon',
+      videoSub:'A short film of the view from the house will appear here.',
+      contactHeading:'Contact Us',
+      contactBody:'Price on application. For further information, viewings or any questions about Kala 3, please get in touch.',
+      priceTag:'Price on application',
+      phoneLabel:'Telephone', emailLabel:'Email',
+      placeholderNote:'Placeholder contact details — to be added.',
+      footerRights:'Kala 3 · Bol, Brač, Croatia'
+    },
+    sl: {
+      navHome:'Domov', navSurroundings:'Okolica', navOpportunities:'Priložnost', navContact:'Kontakt',
+      locTagline:'Bol · Brač · Hrvaška',
+      bannerEyebrow:'Enkratna priložnost za nakup…',
+      bannerTitle:'Pristna kamnita hiša na soncu',
+      bannerScroll:'Spoznajte hišo',
+      photosHeading:'Raziščite hišo',
+      photosSub:'Tri nadstropja izvirnega kamna v osrčju starega mestnega jedra Bola.',
+      tabInterior:'Notranjost', tabExterior:'Zunanjost', tabFloorplans:'Tlorisi',
+      swipeHint:'Drsajte za ogled več \u2192',
+      bedroom1:'Spalnica 1', bedroom2:'Spalnica 2', bedroom3:'Spalnica 3', bedroom4:'Spalnica 4',
+      upstairsHallway:'Zgornji hodnik', viewDownstairs:'Pogled navzdol', downstairsHallway:'Spodnji hodnik',
+      konoba:'Konoba', downstairsRoom:'Spodnji prostor', kitchenSpace:'Kuhinjski prostor', storeCupboard:'Shramba',
+      groundFloor:'Pritličje', upperFloor:'Nadstropje',
+      locationHeading:'Lokacija',
+      locationBody1:'Hiša stoji v osrčju starega mestnega jedra Bola na otoku Braču, le nekaj korakov nad obalo. Ozke kamnite uličice vodijo navzdol do pristanišča, obalne promenade ter številnih kavarn in restavracij.',
+      locationBody2:'Svetovno znana plaža Zlatni rat je prijeten sprehod ali kolesarska pot ob obali, redni trajekti pa povezujejo Bol in Brač s Splitom na celini.',
+      surrHeading:'Okolica',
+      surrIntro:'Bol je eno najstarejših obalnih mest na Jadranu — kraj belega kamna, borovcev, čiste vode in umirjenega otoškega življenja. Nekaj tega, kar obdaja hišo:',
+      s1Title:'Bol in otok Brač',
+      s1Body:'Bol leži med gorami in morjem na južni obali Brača, obdan z vinogradi, oljčniki in borovimi gozdovi, ki segajo vse do roba vode.',
+      s2Title:'Staro pristanišče',
+      s2Body:'V središču mesta staro pristanišče in kamnito ložo obkrožajo kavarne, ribiške ladjice in restavracije — naravno srce bolskih poletnih večerov.',
+      s3Title:'Tik pred vrati',
+      s3Body:'Hiša stoji ob ulici Kala, tihi uličici starega mesta. Kavarna in picerija sta tik pred vrati, trgovine in obala pa le kratek sprehod navzdol.',
+      s4Title:'Dominikanski samostan in plaža',
+      s4Body:'Na vzhodnem robu mesta stoji dominikanski samostan iz 15. stoletja nad zavarovano prodnato plažo v senci cipres in borovcev — eden najlepših kotičkov Bola.',
+      oppHeading:'Priložnost',
+      oppIntro:'Poleg hiše, kakršna je danes, delata dve možnosti Kalo 3 redko priložnost.',
+      o1Title:'Nova marina',
+      o1Body:'Na bolski obali gradijo novo marino, ki bo mestu prinesla sodobne priveze in infrastrukturo. Pričakuje se, da bo dvignila ugled — in privlačnost — nepremičnin v starem mestnem jedru.',
+      o2Title:'Možnost razvoja',
+      o2Body:'Hišo je mogoče razširiti in preurediti ter dodati bivalni prostor in teraso, da bi kar najbolje izkoristili svetlobo in razgled. Spodnje risbe prikazujejo eno od možnih smeri – dovoljenje za to razširitev je leta 2013 izdal Zavod za varstvo kulturne dediščine.',
+      videoTitle:'Razgled z novega balkona',
+      videoNote:'Video kmalu',
+      videoSub:'Tukaj bo prikazan kratek posnetek razgleda iz hiše.',
+      contactHeading:'Kontaktirajte nas',
+      contactBody:'Cena na povpraševanje. Za dodatne informacije, oglede ali kakršna koli vprašanja o Kali 3 nas kontaktirajte.',
+      priceTag:'Cena na povpraševanje',
+      phoneLabel:'Telefon', emailLabel:'E-pošta',
+      placeholderNote:'Nadomestni kontaktni podatki — dodani bodo pozneje.',
+      footerRights:'Kala 3 · Bol, Brač, Hrvaška'
+    },
+    hr: {
+      navHome:'Početna', navSurroundings:'Okolica', navOpportunities:'Prilika', navContact:'Kontakt',
+      locTagline:'Bol · Brač · Hrvatska',
+      bannerEyebrow:'Jedinstvena prilika za kupnju…',
+      bannerTitle:'Autentična kamena kuća na suncu',
+      bannerScroll:'Otkrijte kuću',
+      photosHeading:'Istražite kuću',
+      photosSub:'Tri kata izvornog kamena u srcu starog dijela Bola.',
+      tabInterior:'Interijer', tabExterior:'Eksterijer', tabFloorplans:'Tlocrti',
+      swipeHint:'Klizite za više \u2192',
+      bedroom1:'Spavaća soba 1', bedroom2:'Spavaća soba 2', bedroom3:'Spavaća soba 3', bedroom4:'Spavaća soba 4',
+      upstairsHallway:'Gornji hodnik', viewDownstairs:'Pogled prema dolje', downstairsHallway:'Donji hodnik',
+      konoba:'Konoba', downstairsRoom:'Donja prostorija', kitchenSpace:'Kuhinjski prostor', storeCupboard:'Ostava',
+      groundFloor:'Prizemlje', upperFloor:'Kat',
+      locationHeading:'Lokacija',
+      locationBody1:'Kuća se nalazi u srcu starog dijela Bola na otoku Braču, tek nekoliko koraka iznad obale. Uske kamene uličice vode prema luci, rivi te brojnim kafićima i restoranima.',
+      locationBody2:'Svjetski poznata plaža Zlatni rat ugodna je šetnja ili vožnja biciklom uz obalu, a redovite trajektne linije povezuju Bol i Brač sa Splitom na kopnu.',
+      surrHeading:'Okolica',
+      surrIntro:'Bol je jedno od najstarijih priobalnih mjesta na Jadranu — mjesto bijelog kamena, borova, bistrog mora i mirnog otočkog života. Ponešto od onoga što okružuje kuću:',
+      s1Title:'Bol i otok Brač',
+      s1Body:'Smješten između planina i mora na južnoj obali Brača, Bol je okružen vinogradima, maslinicima i borovim šumama koje se spuštaju sve do mora.',
+      s2Title:'Stara luka',
+      s2Body:'U središtu mjesta staru luku i kamenu ložu okružuju kafići, ribarske barke i restorani — prirodno srce bolskih ljetnih večeri.',
+      s3Title:'Pred vašim vratima',
+      s3Body:'Kuća se nalazi u Kali, tihoj uličici starog dijela mjesta. Kafić i pizzeria su odmah pred vratima, a trgovine i obala tek su kratka šetnja nizbrdo.',
+      s4Title:'Dominikanski samostan i plaža',
+      s4Body:'Na istočnom rubu mjesta dominikanski samostan iz 15. stoljeća smjestio se iznad zaštićene šljunčane plaže u sjeni čempresa i borova — jedan od najljepših kutaka Bola.',
+      oppHeading:'Prilika',
+      oppIntro:'Osim kuće kakva je danas, dvije mogućnosti čine Kalu 3 rijetkom prilikom.',
+      o1Title:'Nova marina',
+      o1Body:'Na bolskoj obali gradi se nova marina koja mjestu donosi suvremene vezove i sadržaje. Očekuje se da će podići ugled — i privlačnost — nekretnina u starom dijelu mjesta.',
+      o2Title:'Mogućnost razvoja',
+      o2Body:'Postoji prostor za proširenje i preuređenje kuće, dodavanje stambenog prostora i terase kako bi se najbolje iskoristili svjetlo i pogled. Donji nacrti prikazuju jedan mogući smjer – dozvolu za ovo proširenje izdao je Konzervatorski odjel 2013. godine.',
+      videoTitle:'Pogled s novog balkona',
+      videoNote:'Video uskoro',
+      videoSub:'Ovdje će se pojaviti kratki video pogleda iz kuće.',
+      contactHeading:'Kontaktirajte nas',
+      contactBody:'Cijena na upit. Za dodatne informacije, razgledavanja ili bilo kakva pitanja o Kali 3, javite nam se.',
+      priceTag:'Cijena na upit',
+      phoneLabel:'Telefon', emailLabel:'E-pošta',
+      placeholderNote:'Rezervirani kontaktni podaci — bit će dodani.',
+      footerRights:'Kala 3 · Bol, Brač, Hrvatska'
+    },
+    it: {
+      navHome:'Home', navSurroundings:'Dintorni', navOpportunities:'Opportunità', navContact:'Contatti',
+      locTagline:'Bol · Brač · Croazia',
+      bannerEyebrow:'Un\u2019occasione unica da cogliere…',
+      bannerTitle:'Un\u2019autentica casa in pietra al sole',
+      bannerScroll:'Scopri la casa',
+      photosHeading:'Esplora la casa',
+      photosSub:'Tre piani di pietra originale nel cuore del centro storico di Bol.',
+      tabInterior:'Interni', tabExterior:'Esterni', tabFloorplans:'Piante',
+      swipeHint:'Scorri per vedere di più \u2192',
+      bedroom1:'Camera 1', bedroom2:'Camera 2', bedroom3:'Camera 3', bedroom4:'Camera 4',
+      upstairsHallway:'Corridoio superiore', viewDownstairs:'Vista verso il basso', downstairsHallway:'Corridoio inferiore',
+      konoba:'Konoba', downstairsRoom:'Stanza al piano inferiore', kitchenSpace:'Zona cucina', storeCupboard:'Ripostiglio',
+      groundFloor:'Piano terra', upperFloor:'Piano superiore',
+      locationHeading:'Posizione',
+      locationBody1:'La casa si trova nel cuore del centro storico di Bol, sull\u2019isola di Brač, a pochi passi dal lungomare. Strette viuzze in pietra scendono verso il porto, la Riva e numerosi caffè e ristoranti.',
+      locationBody2:'La celebre spiaggia di Zlatni rat è raggiungibile con una piacevole passeggiata o in bicicletta lungo la costa, e traghetti regolari collegano Bol e Brač a Spalato sulla terraferma.',
+      surrHeading:'I dintorni',
+      surrIntro:'Bol è una delle più antiche località costiere dell\u2019Adriatico — un luogo di pietra bianca, pini, acque cristalline e vita isolana senza fretta. Un assaggio di ciò che circonda la casa:',
+      s1Title:'Bol e l\u2019isola di Brač',
+      s1Body:'Situata tra le montagne e il mare sulla costa meridionale di Brač, Bol è incorniciata da vigneti, uliveti e pinete che scendono fino alla riva del mare.',
+      s2Title:'Il vecchio porto',
+      s2Body:'Nel centro del paese, il vecchio porto e la sua loggia in pietra sono animati da caffè, barche da pesca e ristoranti — il cuore naturale delle serate estive di Bol.',
+      s3Title:'A due passi',
+      s3Body:'La casa si affaccia su Kala, una tranquilla viuzza del centro storico. Un caffè e una pizzeria si trovano proprio davanti alla porta, mentre negozi e lungomare sono a breve distanza in discesa.',
+      s4Title:'Il monastero domenicano e la spiaggia',
+      s4Body:'All\u2019estremità orientale del paese, il monastero domenicano del XV secolo sorge sopra una spiaggia di ghiaia riparata, all\u2019ombra di cipressi e pini — uno degli angoli più belli di Bol.',
+      oppHeading:'Opportunità',
+      oppIntro:'Oltre alla casa così com\u2019è oggi, due possibilità rendono Kala 3 un\u2019occasione rara.',
+      o1Title:'Il nuovo porto turistico',
+      o1Body:'Sul lungomare di Bol è in costruzione un nuovo porto turistico, che porterà ormeggi e servizi moderni. Con il suo sviluppo, si prevede che accrescerà il prestigio — e l\u2019attrattiva — degli immobili nel centro storico.',
+      o2Title:'Potenziale di sviluppo',
+      o2Body:'C\u2019è la possibilità di ampliare e riorganizzare la casa, aggiungendo spazio abitativo e una terrazza per sfruttare al meglio la luce e la vista. I prospetti qui sotto mostrano una possibile direzione – il permesso per questo ampliamento è stato rilasciato dalla Soprintendenza ai Beni Culturali nel 2013.',
+      videoTitle:'La vista dal nuovo balcone',
+      videoNote:'Video in arrivo',
+      videoSub:'Qui apparirà un breve filmato della vista dalla casa.',
+      contactHeading:'Contattaci',
+      contactBody:'Prezzo su richiesta. Per ulteriori informazioni, visite o qualsiasi domanda su Kala 3, non esitate a contattarci.',
+      priceTag:'Prezzo su richiesta',
+      phoneLabel:'Telefono', emailLabel:'Email',
+      placeholderNote:'Recapiti provvisori — da inserire.',
+      footerRights:'Kala 3 · Bol, Brač, Croazia'
+    },
+    fr: {
+      navHome:'Accueil', navSurroundings:'Environs', navOpportunities:'Opportunité', navContact:'Contact',
+      locTagline:'Bol · Brač · Croatie',
+      bannerEyebrow:'Une occasion unique à saisir…',
+      bannerTitle:'Une authentique maison en pierre au soleil',
+      bannerScroll:'Découvrir la maison',
+      photosHeading:'Explorez la maison',
+      photosSub:'Trois étages de pierre d\u2019origine au cœur de la vieille ville de Bol.',
+      tabInterior:'Intérieur', tabExterior:'Extérieur', tabFloorplans:'Plans',
+      swipeHint:'Faites défiler pour voir plus \u2192',
+      bedroom1:'Chambre 1', bedroom2:'Chambre 2', bedroom3:'Chambre 3', bedroom4:'Chambre 4',
+      upstairsHallway:'Couloir à l\u2019étage', viewDownstairs:'Vue vers le bas', downstairsHallway:'Couloir du bas',
+      konoba:'Konoba', downstairsRoom:'Pièce du bas', kitchenSpace:'Espace cuisine', storeCupboard:'Débarras',
+      groundFloor:'Rez-de-chaussée', upperFloor:'Étage',
+      locationHeading:'Emplacement',
+      locationBody1:'La maison se situe au cœur de la vieille ville de Bol, sur l\u2019île de Brač, à quelques pas du front de mer. D\u2019étroites ruelles en pierre descendent vers le port, la Riva et de nombreux cafés et restaurants.',
+      locationBody2:'La célèbre plage de Zlatni rat se rejoint par une agréable promenade ou à vélo le long de la côte, et des ferries réguliers relient Bol et Brač à Split sur le continent.',
+      surrHeading:'Les environs',
+      surrIntro:'Bol est l\u2019une des plus anciennes villes côtières de l\u2019Adriatique — un lieu de pierre blanche, de pins, d\u2019eaux limpides et de vie insulaire paisible. Un aperçu de ce qui entoure la maison :',
+      s1Title:'Bol et l\u2019île de Brač',
+      s1Body:'Nichée entre les montagnes et la mer sur la côte sud de Brač, Bol est bordée de vignes, d\u2019oliveraies et de pinèdes qui descendent jusqu\u2019au bord de l\u2019eau.',
+      s2Title:'Le vieux port',
+      s2Body:'Au centre du village, le vieux port et sa loggia en pierre sont animés de cafés, de barques de pêche et de restaurants — le cœur naturel des soirées d\u2019été de Bol.',
+      s3Title:'À votre porte',
+      s3Body:'La maison donne sur Kala, une ruelle tranquille de la vieille ville. Un café et une pizzeria se trouvent juste devant la porte, tandis que les commerces et le front de mer sont à quelques pas en contrebas.',
+      s4Title:'Le monastère dominicain et la plage',
+      s4Body:'À l\u2019extrémité est du village, le monastère dominicain du XVe siècle domine une plage de galets abritée, à l\u2019ombre des cyprès et des pins — l\u2019un des plus beaux coins de Bol.',
+      oppHeading:'Opportunité',
+      oppIntro:'Au-delà de la maison telle qu\u2019elle est aujourd\u2019hui, deux possibilités font de Kala 3 une occasion rare.',
+      o1Title:'Le nouveau port de plaisance',
+      o1Body:'Un nouveau port de plaisance est en construction sur le front de mer de Bol, apportant des amarrages et des équipements modernes. À mesure qu\u2019il prend forme, il devrait rehausser le prestige — et l\u2019attrait — des biens de la vieille ville.',
+      o2Title:'Potentiel de développement',
+      o2Body:'Il est possible d\u2019agrandir et de réaménager la maison, en ajoutant un espace de vie et une terrasse pour profiter au mieux de la lumière et de la vue. Les élévations ci-dessous montrent une orientation possible – le permis pour cette extension a été accordé par le Département du Patrimoine en 2013.',
+      videoTitle:'La vue depuis le nouveau balcon',
+      videoNote:'Vidéo à venir',
+      videoSub:'Un court film de la vue depuis la maison apparaîtra ici.',
+      contactHeading:'Contactez-nous',
+      contactBody:'Prix sur demande. Pour tout renseignement, visite ou question concernant Kala 3, n\u2019hésitez pas à nous contacter.',
+      priceTag:'Prix sur demande',
+      phoneLabel:'Téléphone', emailLabel:'E-mail',
+      placeholderNote:'Coordonnées provisoires — à compléter.',
+      footerRights:'Kala 3 · Bol, Brač, Croatie'
+    }
+  };
+
+  go(page){ this.setState({ page }, () => window.scrollTo({ top: 0, behavior: 'smooth' })); }
+
+  scrollTo(id){
+    const el = document.getElementById(id);
+    if (el){ const y = el.getBoundingClientRect().top + window.pageYOffset - 62; window.scrollTo({ top: y, behavior: 'smooth' }); }
+  }
+
+  setTab(tab){
+    this.setState({ tab, slide: 0 }, () => { if (this.carouselRef.current) this.carouselRef.current.scrollTo({ left: 0 }); });
+  }
+
+  arrow(dir){
+    const el = this.carouselRef.current;
+    if (el) el.scrollBy({ left: dir * el.clientWidth, behavior: 'smooth' });
+  }
+
+  onScroll(){
+    const el = this.carouselRef.current;
+    if (el){ const i = Math.round(el.scrollLeft / el.clientWidth); if (i !== this.state.slide) this.setState({ slide: i }); }
+  }
+
+  renderVals(){
+    const { lang, page, tab, slide } = this.state;
+    const t = this.T[lang] || this.T.en;
+    const accent = this.props.accentColor || '#B25A3C';
+
+    const navBase = { background:'none', border:'none', cursor:'pointer', font:'inherit', fontSize:'0.8rem', letterSpacing:'0.14em', textTransform:'uppercase', fontWeight:600, color:'#6B6156', padding:'4px 0', borderBottom:'2px solid transparent' };
+    const navAct = { ...navBase, color:'#2C2621', borderBottom:'2px solid ' + accent };
+    const navButtons = [['home', t.navHome],['surroundings', t.navSurroundings],['opportunities', t.navOpportunities]]
+      .map(([p, label]) => ({ label, style: page === p ? navAct : navBase, onClick: () => this.go(p) }));
+    navButtons.push({ label: t.navContact, style: navBase, onClick: () => this.scrollTo('contact') });
+
+    const langBase = { background:'none', border:'1px solid #E2D9CB', cursor:'pointer', font:'inherit', fontSize:'0.72rem', fontWeight:700, letterSpacing:'0.05em', color:'#6B6156', padding:'5px 8px', borderRadius:'2px' };
+    const langAct = { ...langBase, background: accent, borderColor: accent, color:'#fff' };
+    const langButtons = [['en','EN'],['sl','SL'],['hr','HR'],['it','IT'],['fr','FR']]
+      .map(([c, n]) => ({ name: n, style: lang === c ? langAct : langBase, onClick: () => this.setState({ lang: c }) }));
+
+    const tabBase = { background:'none', border:'none', cursor:'pointer', font:'inherit', fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(1.25rem,2.2vw,1.7rem)', color:'#a99e90', padding:'0 0 6px', borderBottom:'2px solid transparent', fontWeight:600 };
+    const tabAct = { ...tabBase, color:'#2C2621', borderBottom:'2px solid ' + accent };
+    const tabButtons = [['interior', t.tabInterior],['exterior', t.tabExterior],['floorplans', t.tabFloorplans]]
+      .map(([tk, label]) => ({ label, style: tab === tk ? tabAct : tabBase, onClick: () => this.setTab(tk) }));
+
+    let list;
+    if (tab === 'interior') list = this.interior.map(([f, k]) => ({ src:'images/interior/' + f, label: t[k], contain:false }));
+    else if (tab === 'exterior') list = this.exterior.map(f => ({ src:'images/exterior/' + f, label:'', contain:false }));
+    else list = this.floor.map(([f, k]) => ({ src:'images/floorplans/' + f, label: t[k], contain:true }));
+    const slides = list.map(s => ({
+      src: s.src, label: s.label, hasLabel: !!s.label,
+      imgStyle: s.contain
+        ? { width:'100%', height:'100%', objectFit:'contain', padding:'clamp(16px,3vw,48px)', display:'block' }
+        : { width:'100%', height:'100%', objectFit:'cover', display:'block' }
+    }));
+
+    const slideLabelStyle = { position:'absolute', left:'0', bottom:'0', background:'rgba(20,16,12,0.62)', color:'#F6F1E9', fontFamily:"'Cormorant Garamond',serif", fontSize:'clamp(1.1rem,2vw,1.6rem)', padding:'10px 20px', letterSpacing:'0.02em' };
+    const arrowBase = { position:'absolute', top:'50%', transform:'translateY(-50%)', width:'46px', height:'46px', borderRadius:'50%', border:'none', background:'rgba(246,241,233,0.92)', color:'#2C2621', fontSize:'1.7rem', lineHeight:'1', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 2px 12px rgba(0,0,0,0.18)', zIndex:'5', paddingBottom:'4px' };
+    const arrowLeftStyle = { ...arrowBase, left:'14px' };
+    const arrowRightStyle = { ...arrowBase, right:'14px' };
+    const eyebrowStyle = { display:'inline-block', fontFamily:"'Cormorant Garamond',serif", fontSize:'1.4rem', color: accent, letterSpacing:'0.1em' };
+
+    const surrBlocks = [['bol-from-the-air.jpg','s1Title','s1Body'],['bol-loza.jpg','s2Title','s2Body'],['kala-bar.jpg','s3Title','s3Body'],['monastery-beach.jpg','s4Title','s4Body']]
+      .map(([f, tk, bk]) => ({ img:'images/surroundings/' + f, title: t[tk], body: t[bk] }));
+
+    const total = slides.length;
+    return {
+      t, navButtons, langButtons, tabButtons,
+      brandClick: () => this.go('home'),
+      discoverClick: () => this.scrollTo('photos'),
+      isHome: page === 'home', isSurr: page === 'surroundings', isOpp: page === 'opportunities',
+      slides, carouselRef: this.carouselRef, videoRef: this.videoRef, onCarouselScroll: () => this.onScroll(),
+      scrollPrev: () => this.arrow(-1), scrollNext: () => this.arrow(1),
+      slideIndex: Math.min(slide, total - 1) + 1, slideTotal: total,
+      slideLabelStyle, arrowLeftStyle, arrowRightStyle, eyebrowStyle,
+      showHint: this.props.showSwipeHint !== false,
+      surrBlocks,
+      phoneValue:'+385 00 000 0000', emailValue:'info@kala3.example',
+      contactPlaceholderNote: t.placeholderNote
+    };
+  }
+}
+</script>
+</body>
+</html>

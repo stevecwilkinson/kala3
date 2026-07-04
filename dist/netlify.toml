@@ -1,0 +1,5 @@
+[build]
+  publish = "."
+  command = ""
+
+# Static site — no build step. Serves index.html and the images/ folder as-is.
