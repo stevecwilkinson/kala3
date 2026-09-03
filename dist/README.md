@@ -15,6 +15,16 @@ house at Kala 3, Bol, island of Brač, Croatia.
    The included `netlify.toml` already sets this.
 4. Deploy. Netlify gives you a live URL; add a custom domain later if you like.
 
+## Images
+Photos are pre-optimised for the web: resized to a max of 2000px (2560px for the
+hero) and re-encoded with mozjpeg. Several photos that were shipped as PNG are now
+JPEG, so the filenames in the `interior` / `exterior` lists in `index.html` differ
+from the originals. Note that `bedroom-3.png` became `bedroom-3-alt.jpg`, because
+`bedroom-3.jpg` is a different photo.
+
+Full-resolution originals are in git history at commit `5dd599b`. Re-exporting this
+site from Claude Design will overwrite the optimised files with the originals again.
+
 ## Editing later
 - Contact phone/email are placeholders in `index.html` — search for
   `+385 00 000 0000` and `info@kala3.example` and replace with real details.

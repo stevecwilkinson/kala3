@@ -18,6 +18,29 @@ body{margin:0;}
 ::selection{background:#B25A3C;color:#fff;}
 [data-carousel]::-webkit-scrollbar{height:0;display:none;}
 [data-carousel]{-ms-overflow-style:none;scrollbar-width:none;}
+/* Never crop the house photos. The box can't match every photo — the set is mixed
+   3:2 landscape and 2:3 portrait — so show each one whole and mat the remainder.
+   object-fit:cover was cropping 26-35% away on desktop and 56% on a phone. */
+[data-carousel] img{object-fit:contain!important;}
+/* The photo no longer reaches the box edges, so give the caption the full width of
+   the box and lift the slide counter clear of it. Otherwise both straddle the edge
+   of the photo, and their translucent backgrounds make the seam visible. */
+[data-carousel] > div > div{left:0!important;right:0!important;bottom:0!important;background:#2C2621!important;}
+[data-carousel] ~ div{top:14px;bottom:auto!important;background:#2C2621!important;}
+/* On narrow/portrait screens the fixed 64vh height also made the box itself portrait
+   (~0.66) while most photos are landscape; a square mats both orientations equally. */
+@media (max-width:860px){
+  [data-carousel]{height:auto!important;width:100%;aspect-ratio:1/1;max-height:78vh;}
+}
+/* Above that, the box is far wider than a 3:2 photo (1336x576 on a 1440 laptop), so
+   matting alone would leave ~236px of dead ground each side and strand the arrows
+   out in it. Narrow the frame instead — the wrapper, so the arrows and counter come
+   with it — to 1.5x the box height, i.e. exactly 3:2. Landscape photos, 20 of the
+   26, then fill it edge to edge; portrait ones mat within it. 96vh/540/1170 mirror
+   the 64vh/360/780 height clamp so the ratio holds at both ends of the clamp. */
+@media (min-width:861px){
+  div:has(> [data-carousel]){max-width:clamp(540px,96vh,1170px);margin-left:auto;margin-right:auto;}
+}
 </style>
 </helmet>
 <div style="font-family:'Mulish',system-ui,sans-serif;color:#2C2621;background:#F6F1E9;min-height:100vh;">
@@ -46,7 +69,7 @@ body{margin:0;}
     <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
       <div>
         <section style="position:relative;height:clamp(460px,86vh,1000px);width:100%;overflow:hidden;">
-          <img src="images/sea-view.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"/>
+          <img src="images/sea-view.jpg" alt="" fetchPriority="high" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"/>
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,16,12,0.30) 0%,rgba(20,16,12,0.05) 42%,rgba(20,16,12,0.48) 100%);"></div>
           <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 24px;">
             <p style="color:#F6F1E9;font-size:clamp(1.05rem,2.2vw,1.6rem);font-style:italic;font-family:'Cormorant Garamond',serif;letter-spacing:0.01em;margin:0 0 10px;text-shadow:0 2px 18px rgba(0,0,0,0.45);">{{ t.bannerEyebrow }}</p>
@@ -69,7 +92,7 @@ body{margin:0;}
             <div data-carousel ref="{{ carouselRef }}" onScroll="{{ onCarouselScroll }}" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;height:clamp(360px,64vh,780px);background:#EFE8DB;border:1px solid #E2D9CB;">
               <sc-for list="{{ slides }}" as="slide" hint-placeholder-count="3">
                 <div style="min-width:100%;height:100%;scroll-snap-align:center;position:relative;display:flex;align-items:center;justify-content:center;background:#EFE8DB;">
-                  <img src="{{ slide.src }}" alt="" style="{{ slide.imgStyle }}"/>
+                  <img src="{{ slide.src }}" alt="" loading="lazy" decoding="async" style="{{ slide.imgStyle }}"/>
                   <sc-if value="{{ slide.hasLabel }}" hint-placeholder-val="{{ true }}">
                     <div style="{{ slideLabelStyle }}">{{ slide.label }}</div>
                   </sc-if>
@@ -93,7 +116,7 @@ body{margin:0;}
               <p style="color:#544b41;font-size:1.08rem;line-height:1.8;margin:0;">{{ t.locationBody2 }}</p>
             </div>
             <div>
-              <img src="images/bol-map.png" alt="Map of Bol" style="width:100%;height:auto;display:block;border:1px solid #d8cdba;box-shadow:0 14px 44px rgba(0,0,0,0.14);"/>
+              <img src="images/bol-map.png" alt="Map of Bol" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;border:1px solid #d8cdba;box-shadow:0 14px 44px rgba(0,0,0,0.14);"/>
             </div>
           </div>
         </section>
@@ -110,7 +133,7 @@ body{margin:0;}
           <sc-for list="{{ surrBlocks }}" as="block" hint-placeholder-count="4">
             <article style="display:flex;flex-direction:column;">
               <div style="aspect-ratio:4/3;overflow:hidden;background:#EFE8DB;border:1px solid #E2D9CB;">
-                <img src="{{ block.img }}" alt="{{ block.title }}" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+                <img src="{{ block.img }}" alt="{{ block.title }}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;"/>
               </div>
               <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(1.55rem,2.6vw,2.1rem);color:#2C2621;margin:22px 0 12px;line-height:1.1;">{{ block.title }}</h3>
               <p style="color:#6B6156;font-size:1.02rem;line-height:1.75;margin:0;">{{ block.body }}</p>
@@ -130,7 +153,7 @@ body{margin:0;}
         <section style="max-width:1300px;margin:0 auto;padding:clamp(20px,3vw,40px) clamp(16px,4vw,52px) clamp(48px,7vw,90px);">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(30px,5vw,64px);align-items:center;">
             <div style="overflow:hidden;border:1px solid #E2D9CB;box-shadow:0 12px 40px rgba(0,0,0,0.12);">
-              <img src="images/opportunities/marina-bol.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+              <img src="images/opportunities/marina-bol.jpg" alt="" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;"/>
             </div>
             <div>
               <span style="{{ eyebrowStyle }}">01</span>
@@ -145,7 +168,7 @@ body{margin:0;}
             <span style="{{ eyebrowStyle }}">02</span>
             <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.9rem,3.6vw,2.9rem);margin:12px 0 18px;line-height:1.08;">{{ t.o2Title }}</h2>
             <p style="color:#544b41;font-size:1.08rem;line-height:1.8;max-width:700px;margin:0 auto;">{{ t.o2Body }}</p>
-            <img src="images/opportunities/house-extension-mockup.png" alt="Proposed elevations" style="width:100%;height:auto;margin-top:38px;background:#fff;border:1px solid #d8cdba;padding:clamp(14px,3vw,44px);box-shadow:0 12px 40px rgba(0,0,0,0.1);"/>
+            <img src="images/opportunities/house-extension-mockup.png" alt="Proposed elevations" loading="lazy" decoding="async" style="width:100%;height:auto;margin-top:38px;background:#fff;border:1px solid #d8cdba;padding:clamp(14px,3vw,44px);box-shadow:0 12px 40px rgba(0,0,0,0.1);"/>
           </div>
           <div style="max-width:1100px;margin:clamp(44px,6vw,80px) auto 0;text-align:center;">
             <h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.6rem,3vw,2.4rem);margin:0;">{{ t.videoTitle }}</h3>
@@ -197,25 +220,25 @@ class Component extends DCLogic {
   }
 
   interior = [
-    ['bedroom-1-door.png','bedroom1'],
-    ['bedroom-1-with-window.png','bedroom1'],
+    ['bedroom-1-door.jpg','bedroom1'],
+    ['bedroom-1-with-window.jpg','bedroom1'],
     ['bedroom-2.jpg','bedroom2'],
     ['bedroom-3.jpg','bedroom3'],
-    ['bedroom-3.png','bedroom3'],
-    ['bedroom-4.png','bedroom4'],
-    ['hallway.png','upstairsHallway'],
+    ['bedroom-3-alt.jpg','bedroom3'],
+    ['bedroom-4.jpg','bedroom4'],
+    ['hallway.jpg','upstairsHallway'],
     ['stairwell-1.jpg','upstairsHallway'],
     ['stairwell-3.jpg','viewDownstairs'],
     ['stairwell-2.jpg','downstairsHallway'],
-    ['konoba-1.png','konoba'],
+    ['konoba-1.jpg','konoba'],
     ['konoba-2.jpg','konoba'],
     ['lounge-room.jpg','downstairsRoom'],
     ['original-kitchen-1.jpg','kitchenSpace'],
     ['original-kitchen-2.jpg','kitchenSpace'],
     ['original-kitchen.jpg','kitchenSpace'],
-    ['store-cupboard.png','storeCupboard']
+    ['store-cupboard.jpg','storeCupboard']
   ];
-  exterior = ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.png','8.jpg','9.jpg'];
+  exterior = ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg'];
   floor = [['ground-floor-floorplan.jpg','groundFloor'],['upper-floor-floorplan.jpg','upperFloor']];
 
   T = {
@@ -510,7 +533,7 @@ class Component extends DCLogic {
       slideLabelStyle, arrowLeftStyle, arrowRightStyle, eyebrowStyle,
       showHint: this.props.showSwipeHint !== false,
       surrBlocks,
-      phoneValue:'+385 00 000 0000', emailValue:'info@kala3.example',
+      phoneValue:'+385 91 932 3724', emailValue:'melderad@gmail.com',
       contactPlaceholderNote: t.placeholderNote
     };
   }
