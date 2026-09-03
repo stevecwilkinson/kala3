@@ -172,6 +172,7 @@ body{margin:0;}
           </div>
           <div style="max-width:1100px;margin:clamp(44px,6vw,80px) auto 0;text-align:center;">
             <h3 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.6rem,3vw,2.4rem);margin:0;">{{ t.videoTitle }}</h3>
+            <p style="color:#544b41;font-size:1.08rem;line-height:1.8;max-width:700px;margin:18px auto 0;">{{ t.videoIntro }}</p>
             <div style="position:relative;max-width:100%;margin:16px auto 0;aspect-ratio:1307 / 1024;overflow:hidden;-webkit-mask-image:linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);mask-composite:intersect;">
               <video ref="{{ videoRef }}" src="images/view.mp4" autoPlay="{{ true }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="position:absolute;left:-33.5%;top:-6.4%;width:149%;height:107%;object-fit:cover;display:block;"></video>
             </div>
@@ -195,7 +196,7 @@ body{margin:0;}
             <a href="mailto:info@kala3.example" style="color:#E8C9A8;text-decoration:none;font-size:1.25rem;font-family:'Cormorant Garamond',serif;">{{ emailValue }}</a>
           </div>
         </div>
-        <p style="opacity:0.45;font-size:0.72rem;letter-spacing:0.04em;margin:30px 0 0;">{{ contactPlaceholderNote }}</p>
+        <p style="color:#fff;font-size:0.72rem;letter-spacing:0.04em;margin:30px 0 0;">{{ contactPlaceholderNote }}</p>
       </div>
     </section>
 
@@ -274,8 +275,9 @@ class Component extends DCLogic {
       o1Title:'The New Marina',
       o1Body:'A new marina is being built on Bol\u2019s waterfront, bringing modern berths and facilities to the town. As it takes shape, it is expected to raise the profile — and the appeal — of property in the old town.',
       o2Title:'Potential to Develop',
-      o2Body:'There is scope to extend and reconfigure the house, adding living space and a terrace to make the most of the light and the views. The elevations below show one possible direction – permission for this extension was granted by the Heritage Department in 2013.',
+      o2Body:'There is scope to extend and reconfigure the house, adding living space and a terrace to make the most of the light and the views. The elevations below show one possible direction – permission for this extension was granted by the Heritage Department in 2013 (but would need to be re-applied for by the new owner).',
       videoTitle:'The View from the New Balcony',
+      videoIntro:'This view was captured from the same height as someone standing on the balcony of the above drawings would be standing.',
       videoNote:'Video coming soon',
       videoSub:'A short film of the view from the house will appear here.',
       contactHeading:'Contact Us',
@@ -317,15 +319,16 @@ class Component extends DCLogic {
       o1Title:'Nova marina',
       o1Body:'Na bolski obali gradijo novo marino, ki bo mestu prinesla sodobne priveze in infrastrukturo. Pričakuje se, da bo dvignila ugled — in privlačnost — nepremičnin v starem mestnem jedru.',
       o2Title:'Možnost razvoja',
-      o2Body:'Hišo je mogoče razširiti in preurediti ter dodati bivalni prostor in teraso, da bi kar najbolje izkoristili svetlobo in razgled. Spodnje risbe prikazujejo eno od možnih smeri – dovoljenje za to razširitev je leta 2013 izdal Zavod za varstvo kulturne dediščine.',
+      o2Body:'Hišo je mogoče razširiti in preurediti ter dodati bivalni prostor in teraso, da bi kar najbolje izkoristili svetlobo in razgled. Spodnje risbe prikazujejo eno od možnih smeri – dovoljenje za to razširitev je leta 2013 izdal Zavod za varstvo kulturne dediščine (vendar bi ga moral novi lastnik znova pridobiti).',
       videoTitle:'Razgled z novega balkona',
+      videoIntro:'Ta razgled je bil posnet z enake višine, na kateri bi stal nekdo na balkonu z zgornjih risb.',
       videoNote:'Video kmalu',
       videoSub:'Tukaj bo prikazan kratek posnetek razgleda iz hiše.',
       contactHeading:'Kontaktirajte nas',
       contactBody:'Cena na povpraševanje. Za dodatne informacije, oglede ali kakršna koli vprašanja o Kali 3 nas kontaktirajte.',
       priceTag:'Cena na povpraševanje',
       phoneLabel:'Telefon', emailLabel:'E-pošta',
-      placeholderNote:'Nadomestni kontaktni podatki — dodani bodo pozneje.',
+      placeholderNote:'SAMO ZASEBNI KUPCI – NEPREMIČINSKE AGENCIJE, PROSIMO, NE.',
       footerRights:'Kala 3 · Bol, Brač, Hrvaška'
     },
     hr: {
@@ -360,15 +363,16 @@ class Component extends DCLogic {
       o1Title:'Nova marina',
       o1Body:'Na bolskoj obali gradi se nova marina koja mjestu donosi suvremene vezove i sadržaje. Očekuje se da će podići ugled — i privlačnost — nekretnina u starom dijelu mjesta.',
       o2Title:'Mogućnost razvoja',
-      o2Body:'Postoji prostor za proširenje i preuređenje kuće, dodavanje stambenog prostora i terase kako bi se najbolje iskoristili svjetlo i pogled. Donji nacrti prikazuju jedan mogući smjer – dozvolu za ovo proširenje izdao je Konzervatorski odjel 2013. godine.',
+      o2Body:'Postoji prostor za proširenje i preuređenje kuće, dodavanje stambenog prostora i terase kako bi se najbolje iskoristili svjetlo i pogled. Donji nacrti prikazuju jedan mogući smjer – dozvolu za ovo proširenje izdao je Konzervatorski odjel 2013. godine (no novi vlasnik bi je morao ponovno zatražiti).',
       videoTitle:'Pogled s novog balkona',
+      videoIntro:'Ovaj pogled snimljen je s iste visine na kojoj bi stajao netko na balkonu s gornjih nacrta.',
       videoNote:'Video uskoro',
       videoSub:'Ovdje će se pojaviti kratki video pogleda iz kuće.',
       contactHeading:'Kontaktirajte nas',
       contactBody:'Cijena na upit. Za dodatne informacije, razgledavanja ili bilo kakva pitanja o Kali 3, javite nam se.',
       priceTag:'Cijena na upit',
       phoneLabel:'Telefon', emailLabel:'E-pošta',
-      placeholderNote:'Rezervirani kontaktni podaci — bit će dodani.',
+      placeholderNote:'SAMO PRIVATNI KUPCI – AGENCIJE ZA NEKRETNINE, MOLIMO, NE.',
       footerRights:'Kala 3 · Bol, Brač, Hrvatska'
     },
     it: {
@@ -403,15 +407,16 @@ class Component extends DCLogic {
       o1Title:'Il nuovo porto turistico',
       o1Body:'Sul lungomare di Bol è in costruzione un nuovo porto turistico, che porterà ormeggi e servizi moderni. Con il suo sviluppo, si prevede che accrescerà il prestigio — e l\u2019attrattiva — degli immobili nel centro storico.',
       o2Title:'Potenziale di sviluppo',
-      o2Body:'C\u2019è la possibilità di ampliare e riorganizzare la casa, aggiungendo spazio abitativo e una terrazza per sfruttare al meglio la luce e la vista. I prospetti qui sotto mostrano una possibile direzione – il permesso per questo ampliamento è stato rilasciato dalla Soprintendenza ai Beni Culturali nel 2013.',
+      o2Body:'C\u2019è la possibilità di ampliare e riorganizzare la casa, aggiungendo spazio abitativo e una terrazza per sfruttare al meglio la luce e la vista. I prospetti qui sotto mostrano una possibile direzione – il permesso per questo ampliamento è stato rilasciato dalla Soprintendenza ai Beni Culturali nel 2013 (ma dovrebbe essere richiesto di nuovo dal nuovo proprietario).',
       videoTitle:'La vista dal nuovo balcone',
+      videoIntro:'Questa vista è stata ripresa dalla stessa altezza a cui si troverebbe una persona in piedi sul balcone dei disegni qui sopra.',
       videoNote:'Video in arrivo',
       videoSub:'Qui apparirà un breve filmato della vista dalla casa.',
       contactHeading:'Contattaci',
       contactBody:'Prezzo su richiesta. Per ulteriori informazioni, visite o qualsiasi domanda su Kala 3, non esitate a contattarci.',
       priceTag:'Prezzo su richiesta',
       phoneLabel:'Telefono', emailLabel:'Email',
-      placeholderNote:'Recapiti provvisori — da inserire.',
+      placeholderNote:'SOLO ACQUIRENTI PRIVATI – NIENTE AGENZIE IMMOBILIARI, PER FAVORE.',
       footerRights:'Kala 3 · Bol, Brač, Croazia'
     },
     fr: {
@@ -446,15 +451,16 @@ class Component extends DCLogic {
       o1Title:'Le nouveau port de plaisance',
       o1Body:'Un nouveau port de plaisance est en construction sur le front de mer de Bol, apportant des amarrages et des équipements modernes. À mesure qu\u2019il prend forme, il devrait rehausser le prestige — et l\u2019attrait — des biens de la vieille ville.',
       o2Title:'Potentiel de développement',
-      o2Body:'Il est possible d\u2019agrandir et de réaménager la maison, en ajoutant un espace de vie et une terrasse pour profiter au mieux de la lumière et de la vue. Les élévations ci-dessous montrent une orientation possible – le permis pour cette extension a été accordé par le Département du Patrimoine en 2013.',
+      o2Body:'Il est possible d\u2019agrandir et de réaménager la maison, en ajoutant un espace de vie et une terrasse pour profiter au mieux de la lumière et de la vue. Les élévations ci-dessous montrent une orientation possible – le permis pour cette extension a été accordé par le Département du Patrimoine en 2013 (mais il devrait être redemandé par le nouveau propriétaire).',
       videoTitle:'La vue depuis le nouveau balcon',
+      videoIntro:'Cette vue a été prise à la même hauteur que celle d’une personne se tenant sur le balcon des élévations ci-dessus.',
       videoNote:'Vidéo à venir',
       videoSub:'Un court film de la vue depuis la maison apparaîtra ici.',
       contactHeading:'Contactez-nous',
       contactBody:'Prix sur demande. Pour tout renseignement, visite ou question concernant Kala 3, n\u2019hésitez pas à nous contacter.',
       priceTag:'Prix sur demande',
       phoneLabel:'Téléphone', emailLabel:'E-mail',
-      placeholderNote:'Coordonnées provisoires — à compléter.',
+      placeholderNote:'ACHETEURS PRIVÉS UNIQUEMENT – PAS D’AGENCES IMMOBILIÈRES, MERCI.',
       footerRights:'Kala 3 · Bol, Brač, Croatie'
     }
   };
